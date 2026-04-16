@@ -67,31 +67,34 @@ public class GameController {
     }
 
     @PutMapping("/{id}")
-    public String updateGame(@RequestBody Game game, @PathVariable Long id) {
+    public ResponseEntity<?> updateGame(@RequestBody Game game, @PathVariable Long id) {
+        
         try{
             game.setId(id);
             gameService.updateGame(game);
 
-            return "update game " + id + " " + game.getGenre();
+            GameDTO gameDTO = new GameDTO(game.getId(), game.getTitle(), game.getGenre(), game.getPlatform());
+
+            return ResponseEntity.status(200).body(gameDTO);
         }
         catch (IllegalArgumentException e){
-            return e.getMessage();
+            return ResponseEntity.status(400).body(e.getMessage());
         }
         catch (GameNotFoundException e){
-            return e.getMessage();
+            return ResponseEntity.status(404).body(e.getMessage());
         }
     }
 
     @DeleteMapping("/{id}")
-    public String deleteGameById(@PathVariable Long id) {
+    public ResponseEntity<?> deleteGameById(@PathVariable Long id) {
 
         try{
             gameService.deleteGameById(id);
 
-            return "delete";       
+            return ResponseEntity.status(204).body(null);  
         }
         catch (GameNotFoundException e){
-            return e.getMessage();
+            return ResponseEntity.status(404).body(e.getMessage());
         }
     }
 }
