@@ -7,8 +7,7 @@ public class GameDTO {
     private String genre; 
     private String platform;
 
-    public GameDTO(Long id, String title, String genre, String platform)
-    {
+    public GameDTO(Long id, String title, String genre, String platform){
         this.id = id;
         this.title = title;
         this.genre = genre;

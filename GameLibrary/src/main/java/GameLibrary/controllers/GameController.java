@@ -9,15 +9,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import GameLibrary.models.Game;
+import GameLibrary.services.interfaces.GameService;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
 @RequestMapping("/api/games")
 public class GameController {
 
+    private final GameService gameService;
+
+    public GameController(GameService gameService){
+        this.gameService = gameService;
+    }
+
     @GetMapping("/")
     public String getAllGames() {
-        return "get All games";
+        return gameService.getAllGames();
     }
 
     @GetMapping("/{id}")

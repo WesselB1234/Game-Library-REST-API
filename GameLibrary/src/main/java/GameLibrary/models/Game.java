@@ -7,8 +7,7 @@ public class Game
     private String genre; 
     private String platform;
 
-    public Game(Long id, String title, String genre, String platform)
-    {
+    public Game(Long id, String title, String genre, String platform){
         this.id = id;
         this.title = title;
         this.genre = genre;
@@ -30,7 +29,7 @@ public class Game
     public String getPlatform() {
         return platform;
     }
-    
+
     public void setId(Long id) {
         this.id = id;
     }
