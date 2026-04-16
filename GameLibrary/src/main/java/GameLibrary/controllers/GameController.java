@@ -62,7 +62,7 @@ public class GameController {
             return ResponseEntity.status(201).body(gameDTO);
         }
         catch (IllegalArgumentException e){
-             return ResponseEntity.status(400).body("test");//e.getMessage());
+            return ResponseEntity.status(400).body(e.getMessage());
         }
     }
 

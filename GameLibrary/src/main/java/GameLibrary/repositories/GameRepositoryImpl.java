@@ -18,7 +18,7 @@ public class GameRepositoryImpl implements GameRepository {
     public Game getGameByTitleAndPlatformExcludingId(Long id, String title, String platform) {
 
         for (Game game : gamesDatabase) {
-            if (game.getId() != id && game.getTitle() == title && game.getPlatform() == platform) {
+            if (game.getId() != id && game.getTitle().equals(title) && game.getPlatform().equals(platform)) {
                 return game;
             }
         }
