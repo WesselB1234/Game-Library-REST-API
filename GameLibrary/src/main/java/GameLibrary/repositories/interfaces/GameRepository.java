@@ -5,10 +5,10 @@ import GameLibrary.models.Game;
 
 public interface GameRepository {
     
-    public Game getGameByTitleAndPlatform(String title, String platform);
+    public Game getGameByTitleAndPlatformExcludingId(long id, String title, String platform);
     public List<Game> getAllGames();
-    public Game getGameById(Long id);
+    public Game getGameById(long id);
     public long createNewGame(Game game);
     public void updateGame(Game game);
-    public void deleteGameById(Long id);
+    public void deleteGameById(long id);
 }

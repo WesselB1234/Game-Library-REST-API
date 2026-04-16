@@ -2,19 +2,19 @@ package GameLibrary.models;
 
 public class Game 
 {
-    private Long id; 
+    private long id; 
     private String title; 
     private String genre; 
     private String platform;
 
-    public Game(Long id, String title, String genre, String platform){
+    public Game(long id, String title, String genre, String platform){
         this.id = id;
         this.title = title;
         this.genre = genre;
         this.platform = platform;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
@@ -30,7 +30,7 @@ public class Game
         return platform;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 

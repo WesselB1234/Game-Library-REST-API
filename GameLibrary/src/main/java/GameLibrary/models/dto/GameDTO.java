@@ -2,19 +2,19 @@ package GameLibrary.models.dto;
 
 public class GameDTO {
 
-    private Long id; 
+    private long id; 
     private String title; 
     private String genre; 
     private String platform;
 
-    public GameDTO(Long id, String title, String genre, String platform){
+    public GameDTO(long id, String title, String genre, String platform){
         this.id = id;
         this.title = title;
         this.genre = genre;
         this.platform = platform;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
@@ -30,7 +30,7 @@ public class GameDTO {
         return platform;
     }
     
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 

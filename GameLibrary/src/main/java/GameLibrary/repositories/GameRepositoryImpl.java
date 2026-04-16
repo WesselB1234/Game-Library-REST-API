@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import GameLibrary.exceptions.GameNotFoundException;
 import GameLibrary.models.Game;
 import GameLibrary.repositories.interfaces.GameRepository;
 
@@ -14,10 +15,10 @@ public class GameRepositoryImpl implements GameRepository {
     private List<Game> gamesDatabase = new ArrayList<>();
 
     @Override
-    public Game getGameByTitleAndPlatform(String title, String platform) {
+    public Game getGameByTitleAndPlatformExcludingId(long id, String title, String platform) {
 
          for (Game game : gamesDatabase) {
-            if (game.getTitle() == title && game.getPlatform() == platform) {
+            if (game.getId() != id && game.getTitle() == title && game.getPlatform() == platform) {
                 return game;
             }
         }
@@ -31,7 +32,7 @@ public class GameRepositoryImpl implements GameRepository {
     }
 
     @Override
-    public Game getGameById(Long id) {
+    public Game getGameById(long id) {
 
         for (Game game : gamesDatabase) {
             if (game.getId() == id) {
@@ -59,19 +60,23 @@ public class GameRepositoryImpl implements GameRepository {
         for (int i = 0; i < gamesDatabase.size(); i++) {
             if (gamesDatabase.get(i).getId() == game.getId()) {
                 gamesDatabase.set(i, game);
-                break;
+                return;
             }
         }
+
+        throw new GameNotFoundException(String.format( "Cannot update game with id: %s does not exist.", game.getId()));
     }
 
     @Override
-    public void deleteGameById(Long id) {
+    public void deleteGameById(long id) {
 
         for (int i = 0; i < gamesDatabase.size(); i++) {
             if (gamesDatabase.get(i).getId() == id) {
                 gamesDatabase.remove(i);
-                break;
+                return;
             }
         }
+
+        throw new GameNotFoundException(String.format( "Cannot delete game with id: %s because it not exist.", id));
     }
 }
