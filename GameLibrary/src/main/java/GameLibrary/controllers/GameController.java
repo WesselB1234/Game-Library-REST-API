@@ -113,6 +113,7 @@ public class GameController {
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteGameById(@PathVariable Long id) {
+        
         try {
             gameService.deleteGameById(id);
             return ResponseEntity.noContent().build();
