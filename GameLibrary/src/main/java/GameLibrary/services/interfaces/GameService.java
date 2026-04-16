@@ -1,11 +1,13 @@
 package GameLibrary.services.interfaces;
+import java.util.List;
+
 import GameLibrary.models.Game;
 
 public interface GameService {
     
-    public String getAllGames();
-    public String getGameById(Long id);
-    public String createNewGame(Game game);
-    public String updateGame(Game game);
-    public String deleteGameById(Long id);
+    public List<Game> getAllGames();
+    public Game getGameById(Long id);
+    public long createNewGame(Game game);
+    public void updateGame(Game game);
+    public void deleteGameById(Long id);
 }

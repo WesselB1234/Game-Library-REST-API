@@ -1,5 +1,7 @@
 package GameLibrary.services;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import GameLibrary.models.Game;
@@ -16,35 +18,31 @@ public class GameServiceImpl implements GameService {
     }
 
     private void throwIfDuplicateGameExists(Game game) throws Exception {
-
+        
     }
 
     @Override
-    public String getAllGames() {
-        return gameRepository.getAllGames();
+    public List<Game> getAllGames() {
+        return this.gameRepository.getAllGames();
     }
 
     @Override
-    public String getGameById(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getGameById'");
+    public Game getGameById(Long id) {
+        return this.gameRepository.getGameById(id);
     }
 
     @Override
-    public String createNewGame(Game game) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createNewGame'");
+    public long createNewGame(Game game) {
+        return this.gameRepository.createNewGame(game);
     }
 
     @Override
-    public String updateGame(Game game) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateGame'");
+    public void updateGame(Game game) {
+        this.gameRepository.updateGame(game);
     }
 
     @Override
-    public String deleteGameById(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteGameById'");
+    public void deleteGameById(Long id) {
+        this.gameRepository.deleteGameById(id);
     }
 }
