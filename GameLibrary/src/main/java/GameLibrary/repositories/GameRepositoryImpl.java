@@ -15,9 +15,9 @@ public class GameRepositoryImpl implements GameRepository {
     private List<Game> gamesDatabase = new ArrayList<>();
 
     @Override
-    public Game getGameByTitleAndPlatformExcludingId(long id, String title, String platform) {
+    public Game getGameByTitleAndPlatformExcludingId(Long id, String title, String platform) {
 
-         for (Game game : gamesDatabase) {
+        for (Game game : gamesDatabase) {
             if (game.getId() != id && game.getTitle() == title && game.getPlatform() == platform) {
                 return game;
             }
@@ -32,7 +32,7 @@ public class GameRepositoryImpl implements GameRepository {
     }
 
     @Override
-    public Game getGameById(long id) {
+    public Game getGameById(Long id) {
 
         for (Game game : gamesDatabase) {
             if (game.getId() == id) {
@@ -44,14 +44,12 @@ public class GameRepositoryImpl implements GameRepository {
     }
 
     @Override
-    public long createNewGame(Game game) {
+    public void createNewGame(Game game) {
 
-        long gameId = gamesDatabase.size() + 1;
+        Long gameId = gamesDatabase.size() + 1L;
         game.setId(gameId);
 
         gamesDatabase.add(game);
-
-        return gameId;
     }
 
     @Override
@@ -68,7 +66,7 @@ public class GameRepositoryImpl implements GameRepository {
     }
 
     @Override
-    public void deleteGameById(long id) {
+    public void deleteGameById(Long id) {
 
         for (int i = 0; i < gamesDatabase.size(); i++) {
             if (gamesDatabase.get(i).getId() == id) {

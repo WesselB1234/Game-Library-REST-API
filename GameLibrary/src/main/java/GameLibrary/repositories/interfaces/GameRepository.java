@@ -1,14 +1,15 @@
 package GameLibrary.repositories.interfaces;
+
 import java.util.List;
 
 import GameLibrary.models.Game;
 
 public interface GameRepository {
     
-    public Game getGameByTitleAndPlatformExcludingId(long id, String title, String platform);
+    public Game getGameByTitleAndPlatformExcludingId(Long id, String title, String platform);
     public List<Game> getAllGames();
-    public Game getGameById(long id);
-    public long createNewGame(Game game);
+    public Game getGameById(Long id);
+    public void createNewGame(Game game);
     public void updateGame(Game game);
-    public void deleteGameById(long id);
+    public void deleteGameById(Long id);
 }

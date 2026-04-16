@@ -28,15 +28,18 @@ public class GameController {
     }
 
     @GetMapping
-    public List<GameDTO> getAllGames() {
+    public ResponseEntity<List<GameDTO>> getAllGames() {
 
         List<Game> games = gameService.getAllGames();
 
-        return games.stream().map(game -> new GameDTO(game.getId(), game.getTitle(), game.getGenre(), game.getPlatform())).toList(); 
+        return ResponseEntity.status(200).body(
+            games.stream().map(game -> new GameDTO(game.getId(), game.getTitle(), game.getGenre(), game.getPlatform()))
+            .toList()
+        ); 
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getGameById(@PathVariable long id) {
+    public ResponseEntity<?> getGameById(@PathVariable Long id) {
         
         try{
             Game game = gameService.getGameById(id);
@@ -50,20 +53,21 @@ public class GameController {
     }
 
     @PostMapping
-    public String createNewGame(@RequestBody Game game) {
-        
-        try{
-            long gameId = gameService.createNewGame(game);
+    public ResponseEntity<?> createNewGame(@RequestBody Game game) {
 
-            return "created new game with id: " + gameId;
+        try{
+            gameService.createNewGame(game);
+            GameDTO gameDTO = new GameDTO(game.getId(), game.getTitle(), game.getGenre(), game.getPlatform());
+
+            return ResponseEntity.status(201).body(gameDTO);
         }
         catch (IllegalArgumentException e){
-            return e.getMessage();
+             return ResponseEntity.status(400).body("test");//e.getMessage());
         }
     }
 
     @PutMapping("/{id}")
-    public String updateGame(@RequestBody Game game, @PathVariable long id) {
+    public String updateGame(@RequestBody Game game, @PathVariable Long id) {
         try{
             game.setId(id);
             gameService.updateGame(game);
@@ -79,7 +83,7 @@ public class GameController {
     }
 
     @DeleteMapping("/{id}")
-    public String deleteGameById(@PathVariable long id) {
+    public String deleteGameById(@PathVariable Long id) {
 
         try{
             gameService.deleteGameById(id);

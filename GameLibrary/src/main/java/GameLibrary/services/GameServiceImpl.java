@@ -18,7 +18,7 @@ public class GameServiceImpl implements GameService {
         this.gameRepository = gameRepository;
     }
 
-    private void throwIfDuplicateGameExists(Game game) throws IllegalArgumentException  {
+    private void throwIfDuplicateGameExists(Game game) {
         if (this.gameRepository.getGameByTitleAndPlatformExcludingId(game.getId(), game.getTitle(), game.getPlatform()) != null){
             throw new IllegalArgumentException(String.format("Game with title: %s and platform: %s already exists.", game.getTitle(), game.getPlatform()));
         }
@@ -30,7 +30,7 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public Game getGameById(long id) {
+    public Game getGameById(Long id) {
 
         Game game = this.gameRepository.getGameById(id);
 
@@ -42,11 +42,11 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public long createNewGame(Game game) {
+    public void createNewGame(Game game) {
 
         throwIfDuplicateGameExists(game);
 
-        return this.gameRepository.createNewGame(game);
+        this.gameRepository.createNewGame(game);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public void deleteGameById(long id) {
+    public void deleteGameById(Long id) {
         this.gameRepository.deleteGameById(id);
     }
 }
