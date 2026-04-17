@@ -17,7 +17,7 @@ public class GameServiceImpl implements GameService {
     private Game getGameByTitleAndPlatformExcludingId(Long id, String title, String platform) {
 
         for (Game game : gamesDatabase) {
-            if (game.getId() != id && game.getTitle().equals(title) && game.getPlatform().equals(platform)) {
+            if (!game.getId().equals(id) && game.getTitle().equals(title) && game.getPlatform().equals(platform)) {
                 return game;
             }
         }
@@ -31,6 +31,17 @@ public class GameServiceImpl implements GameService {
         }
     }
 
+    private Long generateNewGameId() {
+
+        int databaseSize = gamesDatabase.size();
+
+        if (databaseSize == 0){
+            return 1L;
+        }
+
+        return gamesDatabase.get(databaseSize - 1).getId() + 1L;
+    }
+
     @Override
     public List<Game> getAllGames() {
         return gamesDatabase;
@@ -40,7 +51,7 @@ public class GameServiceImpl implements GameService {
     public Game getGameById(Long id) {
 
         for (Game game : gamesDatabase) {
-            if (game.getId() == id) {
+            if (game.getId().equals(id)) {
                 return game;
             }
         }
@@ -52,10 +63,7 @@ public class GameServiceImpl implements GameService {
     public void createNewGame(Game game) {
 
         throwIfDuplicateGameExists(game);
-
-        Long gameId = gamesDatabase.size() + 1L;
-        game.setId(gameId);
-
+        game.setId(generateNewGameId());
         gamesDatabase.add(game);
     }
 
@@ -65,7 +73,7 @@ public class GameServiceImpl implements GameService {
         throwIfDuplicateGameExists(game);
 
         for (int i = 0; i < gamesDatabase.size(); i++) {
-            if (gamesDatabase.get(i).getId() == game.getId()) {
+            if (gamesDatabase.get(i).getId().equals(game.getId())) {
                 gamesDatabase.set(i, game);
                 return;
             }
@@ -78,7 +86,7 @@ public class GameServiceImpl implements GameService {
     public void deleteGameById(Long id) {
 
         for (int i = 0; i < gamesDatabase.size(); i++) {
-            if (gamesDatabase.get(i).getId() == id) {
+            if (gamesDatabase.get(i).getId().equals(id)) {
                 gamesDatabase.remove(i);
                 return;
             }
