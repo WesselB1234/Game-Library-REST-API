@@ -116,7 +116,7 @@ public class GameController {
         
         try {
             gameService.deleteGameById(id);
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.status(204).body(null);
         } 
         catch (GameNotFoundException e) {
             return ResponseEntity.status(404).body(e.getMessage());
