@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,7 +16,6 @@ import GameLibrary.exceptions.GameNotFoundException;
 import GameLibrary.models.Game;
 import GameLibrary.models.dto.GameDTO;
 import GameLibrary.services.interfaces.GameService;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
 @RequestMapping("/games")
@@ -54,7 +54,7 @@ public class GameController {
 
     @PostMapping
     public ResponseEntity<?> createNewGame(@RequestBody Game game) {
-
+        
         try{
             gameService.createNewGame(game);
             GameDTO gameDTO = new GameDTO(game.getId(), game.getTitle(), game.getGenre(), game.getPlatform());
