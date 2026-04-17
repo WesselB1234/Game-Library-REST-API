@@ -15,10 +15,7 @@ import GameLibrary.exceptions.GameNotFoundException;
 import GameLibrary.models.Game;
 import GameLibrary.models.dto.GameDTO;
 import GameLibrary.services.interfaces.GameService;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 @RestController
 @RequestMapping("/games")
@@ -30,8 +27,6 @@ public class GameController {
         this.gameService = gameService;
     }
 
-    @Operation(summary = "Get all games", description = "Returns a list of all games.")
-    @ApiResponse(responseCode = "200", description = "Games retrieved successfully")
     @GetMapping
     public ResponseEntity<List<GameDTO>> getAllGames() {
 
@@ -43,11 +38,6 @@ public class GameController {
         ); 
     }
 
-    @Operation(summary = "Get a game by ID", description = "Returns a single game if it exists.")
-    @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "Game found"),
-        @ApiResponse(responseCode = "404", description = "Game not found")
-    })
     @GetMapping("/{id}")
     public ResponseEntity<?> getGameById(@PathVariable Long id) {
         
@@ -62,11 +52,6 @@ public class GameController {
         }
     }
 
-    @Operation(summary = "Create a new game", description = "Adds a new game to the library.")
-    @ApiResponses({
-        @ApiResponse(responseCode = "201", description = "Game created successfully"),
-        @ApiResponse(responseCode = "400", description = "Invalid game data")
-    })
     @PostMapping
     public ResponseEntity<?> createNewGame(@RequestBody Game game) {
 
@@ -81,12 +66,6 @@ public class GameController {
         }
     }
 
-    @Operation(summary = "Update an existing game", description = "Updates a game by ID.")
-    @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "Game updated successfully"),
-        @ApiResponse(responseCode = "400", description = "Invalid game data"),
-        @ApiResponse(responseCode = "404", description = "Game not found")
-    })
     @PutMapping("/{id}")
     public ResponseEntity<?> updateGame(@RequestBody Game game, @PathVariable Long id) {
         
@@ -106,11 +85,6 @@ public class GameController {
         }
     }
 
-    @Operation(summary = "Delete a game", description = "Deletes a game by ID.")
-    @ApiResponses({
-        @ApiResponse(responseCode = "204", description = "Game deleted successfully"),
-        @ApiResponse(responseCode = "404", description = "Game not found")
-    })
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteGameById(@PathVariable Long id) {
         

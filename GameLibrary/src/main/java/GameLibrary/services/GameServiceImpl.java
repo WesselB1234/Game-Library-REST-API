@@ -1,44 +1,51 @@
 package GameLibrary.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import GameLibrary.exceptions.GameNotFoundException;
 import GameLibrary.models.Game;
-import GameLibrary.repositories.interfaces.GameRepository;
 import GameLibrary.services.interfaces.GameService;
 
 @Service
 public class GameServiceImpl implements GameService {
 
-    private final GameRepository gameRepository;
+    private List<Game> gamesDatabase = new ArrayList<>();
 
-    public GameServiceImpl(GameRepository gameRepository){
-        this.gameRepository = gameRepository;
+    private Game getGameByTitleAndPlatformExcludingId(Long id, String title, String platform) {
+
+        for (Game game : gamesDatabase) {
+            if (game.getId() != id && game.getTitle().equals(title) && game.getPlatform().equals(platform)) {
+                return game;
+            }
+        }
+
+        return null;
     }
 
     private void throwIfDuplicateGameExists(Game game) {
-        if (this.gameRepository.getGameByTitleAndPlatformExcludingId(game.getId(), game.getTitle(), game.getPlatform()) != null){
+        if (getGameByTitleAndPlatformExcludingId(game.getId(), game.getTitle(), game.getPlatform()) != null){
             throw new IllegalArgumentException(String.format("Game with title: %s and platform: %s already exists.", game.getTitle(), game.getPlatform()));
         }
     }
 
     @Override
     public List<Game> getAllGames() {
-        return this.gameRepository.getAllGames();
+        return gamesDatabase;
     }
 
     @Override
     public Game getGameById(Long id) {
 
-        Game game = this.gameRepository.getGameById(id);
-
-        if (game == null){
-            throw new GameNotFoundException(String.format("Game with id: %s does not exist.", id));
+        for (Game game : gamesDatabase) {
+            if (game.getId() == id) {
+                return game;
+            }
         }
 
-        return game;
+        throw new GameNotFoundException(String.format("Game with id: %s does not exist.", id));
     }
 
     @Override
@@ -46,7 +53,10 @@ public class GameServiceImpl implements GameService {
 
         throwIfDuplicateGameExists(game);
 
-        this.gameRepository.createNewGame(game);
+        Long gameId = gamesDatabase.size() + 1L;
+        game.setId(gameId);
+
+        gamesDatabase.add(game);
     }
 
     @Override
@@ -54,11 +64,26 @@ public class GameServiceImpl implements GameService {
 
         throwIfDuplicateGameExists(game);
 
-        this.gameRepository.updateGame(game);
+        for (int i = 0; i < gamesDatabase.size(); i++) {
+            if (gamesDatabase.get(i).getId() == game.getId()) {
+                gamesDatabase.set(i, game);
+                return;
+            }
+        }
+
+        throw new GameNotFoundException(String.format( "Cannot update game with id: %s does not exist.", game.getId()));
     }
 
     @Override
     public void deleteGameById(Long id) {
-        this.gameRepository.deleteGameById(id);
+
+        for (int i = 0; i < gamesDatabase.size(); i++) {
+            if (gamesDatabase.get(i).getId() == id) {
+                gamesDatabase.remove(i);
+                return;
+            }
+        }
+
+        throw new GameNotFoundException(String.format( "Cannot delete game with id: %s because it not exist.", id));
     }
 }
